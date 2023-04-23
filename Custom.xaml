@@ -8,21 +8,6 @@
     </StackPanel>
 </local:MyCard>
 
-<local:MyCard Title="test" Margin="0,0,0,15" CanSwap="True" IsSwaped="True">
-    <StackPanel Margin="25,40,23,15">
-        <TextBlock Margin="0,0,0,4"
-                   Text="你可以通过添加 local:MyButton 来新建一个按钮。你需要通过上一张卡片中提到的宽高属性来限定它的尺寸与位置，通过 Padding 属性控制它的内边距。" />
-        <TextBlock Margin="0,0,0,10"
-                   Text="按钮可以做到很多事，例如将 EventType 属性改为 打开网页，然后在 EventData 属性中写入网址，即可通过点击按钮打开网页。" />
-        <local:MyButton Width="140" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
-                   Text="打开 MCBBS" EventType="打开网页" EventData="https://www.mcbbs.net/" />
-        <TextBlock Margin="0,0,0,0"
-                   Text=" " />
-        <local:MyButton Width="200" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
-                   Text="点击查看原初之地更新日志" ToolTip="看不见我看不见我⌯'▾'⌯" EventType="弹出窗口" EventData="五一期间更新日志|【一】增加了[乡野装饰]内测系列的田园生活向方块模组。\n【二】延续使用原有原初之地的所有客户端渲染个人视角/动画/体感效果。\n【三】依然使用铷系列作为光影驱动与游戏优化，itt2与3当前版本不可用" />
-    </StackPanel>
-</local:MyCard>
-
 <local:MyCard Title="篝火：关于更多" CanSwap="True" IsSwaped="True" Margin="0,0,0,15">
     <StackPanel Margin="25,40,23,15">
             <local:MyTextButton Margin="0,8,0,5" HorizontalAlignment="Center"

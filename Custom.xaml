@@ -8,7 +8,7 @@
     </StackPanel>
 </local:MyCard>
 
-<local:MyCard Title="篝火：关于更多" CanSwap="True" IsSwaped="True" Margin="0,0,0,15">
+<local:MyCard Title="篝火：关于更多11111" CanSwap="True" IsSwaped="True" Margin="0,0,0,15">
     <StackPanel Margin="25,40,23,15">
             <local:MyTextButton Margin="0,8,0,5" HorizontalAlignment="Center"
                    Text="有关篝火的相关拓展内容下所示。" EventType="打开网页" EventData="https://www.zhihu.com/" ToolTip="(ᕑᗢᓫ∗)˒被你发现啦" />

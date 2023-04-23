@@ -39,7 +39,7 @@
             <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0" ColorType="Highlight"
                    Text="篝火Github库" EventType="打开网页" EventData="https://github.com/mingxi7077/Minecraft-bonfire-concept" ToolTip="查看github的库文件以下载你也许需要的内容"/>
             <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
-                   Text="建议或投诉" EventType="刷新主页" EventData="https://shimo.im/forms/KrkElv5WQrI1LNqJ/fill" ToolTip="这通常用于联网更新主页时刷新信息，对本地文件没啥用" />
+                   Text="建议或投诉" EventType="刷新主页" EventData="https://shimo.im/forms/KrkElv5WQrI1LNqJ/fill" ToolTip="如果你对篝火有相关建议或问题，可点击进入填写表格，我们会为相应玩家回复" />
             <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
                    Text="项目进度表" EventType="打开网页" EventData="https://shimo.im/tables/913JVlXDJmhJm83E" ToolTip="查看用爱发电的篝火管理的人员分工以及在做什么？" />
         </StackPanel>

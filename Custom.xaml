@@ -1,0 +1,62 @@
+﻿<local:MyCard Title="原初之地：注意事项" Margin="0,0,0,15" CanSwap="True" IsSwaped="True">
+    <StackPanel Margin="25,40,23,15">
+        <local:MyHint Text="该整合包为公益形式，自行更改概不负责。&#xa;其作者本体配置与篝火调试后常用配置或有不同&#xa;若你自行调试则后果概不负责" />
+        <local:MyHint Margin="0,8,0,2" IsWarn="False"
+                   Text="篝火原初系列所有模组或多或少我调试过一些，与常用配置或有不同&#xa;若你自行调试则后果概不负责" />
+        <TextBlock Margin="0,6,0,0"
+                   Text=".&#xa;嘤" />
+    </StackPanel>
+</local:MyCard>
+
+<local:MyCard Title="test" Margin="0,0,0,15" CanSwap="True" IsSwaped="True">
+    <StackPanel Margin="25,40,23,15">
+        <TextBlock Margin="0,0,0,4"
+                   Text="你可以通过添加 local:MyButton 来新建一个按钮。你需要通过上一张卡片中提到的宽高属性来限定它的尺寸与位置，通过 Padding 属性控制它的内边距。" />
+        <TextBlock Margin="0,0,0,10"
+                   Text="按钮可以做到很多事，例如将 EventType 属性改为 打开网页，然后在 EventData 属性中写入网址，即可通过点击按钮打开网页。" />
+        <local:MyButton Width="140" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
+                   Text="打开 MCBBS" EventType="打开网页" EventData="https://www.mcbbs.net/" />
+        <TextBlock Margin="0,0,0,0"
+                   Text=" " />
+        <local:MyButton Width="200" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
+                   Text="点击查看原初之地更新日志" ToolTip="看不见我看不见我⌯'▾'⌯" EventType="弹出窗口" EventData="五一期间更新日志|【一】增加了[乡野装饰]内测系列的田园生活向方块模组。\n【二】延续使用原有原初之地的所有客户端渲染个人视角/动画/体感效果。\n【三】依然使用铷系列作为光影驱动与游戏优化，itt2与3当前版本不可用" />
+    </StackPanel>
+</local:MyCard>
+
+<local:MyCard Title="篝火：关于更多" CanSwap="True" IsSwaped="True" Margin="0,0,0,15">
+    <StackPanel Margin="25,40,23,15">
+            <local:MyTextButton Margin="0,8,0,5" HorizontalAlignment="Center"
+                   Text="有关篝火的相关拓展内容下所示。" EventType="打开网页" EventData="https://www.zhihu.com/" ToolTip="(ᕑᗢᓫ∗)˒被你发现啦" />
+        <TextBlock Margin="0,0,0,4"
+                   Text="对于更多的建议可随时向我提出，该PCL联网更新的配置文件" />
+        <TextBlock Margin="0,0,0,10"
+                   Text="如果你要实现更复杂的布局，你必须使用 Grid 等控件。多百度吧……谷歌也行。" />
+        <!-- 这是第一行 -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0" ColorType="Highlight"
+                   Text="发展规划" EventType="打开网页" EventData="https://www.bilibili.com/" ToolTip="测试"/>
+            <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
+                   Text="进入 Hypixel" EventType="启动游戏" EventData="1.16.3|mc.hypixel.net" ToolTip="使用 Minecraft 1.16.3 进入 Hypixel" />
+            <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
+                   Text="打开画图" EventType="打开文件" EventData="mspaint.exe" />
+        </StackPanel>
+        <!-- 这是第二行 -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0" ColorType="Red"
+                   Text="复制召唤命令" EventType="复制文本" EventData="/execute as @a at @s run summon Creeper ~ ~2 ~" ToolTip="这条 Minecraft 命令会在每个玩家头顶召唤一只苦力怕！" />
+            <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
+                   Text="刷新主页" EventType="刷新主页" ToolTip="这通常用于联网更新主页时刷新信息，对本地文件没啥用" />
+            <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
+                   Text="篝火发展规划" EventType="下载文件" EventData="https://www.mcbbs.net/uc_server/data/avatar/000/14/51/06_avatar_small.jpg?ts=1471402592" />
+        </StackPanel>
+         <!-- 这是第三行 -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Margin="0,10,0,0">
+            <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0" ColorType="Highlight"
+                   Text="发展规划" EventType="打开网页" EventData="https://www.bilibili.com/" />
+            <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
+                   Text="进入 Hypixel" EventType="启动游戏" EventData="1.16.3|mc.hypixel.net" ToolTip="使用 Minecraft 1.16.3 进入 Hypixel" />
+            <local:MyButton Margin="0,0,10,0" Width="105" Height="35" HorizontalAlignment="Left" Padding="13,0,13,0"
+                   Text="打开画图" EventType="打开文件" EventData="mspaint.exe" />
+        </StackPanel>
+    </StackPanel>
+</local:MyCard>

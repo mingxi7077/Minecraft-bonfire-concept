@@ -1,3 +1,2 @@
-# Minecraft-bonfire-concept
 
-A small team from China inspired to produce a high-quality player game content from Minecraft, including a mod server; Plugin server; Client Material Pack; Animated shorts and group players in various gameplay styles [e.g. focus on PVP or pastoral survival]. At the moment, the main productivity is for me alone, although the progress is very slow, but it is guaranteed that it will not stop.
+High-quality player game content has been produced from Minecraft, including mod servers; plug-in servers; customer information package; Plugins, animated shorts for a variety of playstyles, and party players [e.g., focusing on PVP or pastoral survival]. At the moment, the main productivity is for the original series, and although progress is slow, it is guaranteed that it will not stop.

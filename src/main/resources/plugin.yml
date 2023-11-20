@@ -1,0 +1,19 @@
+name: MultiCurrency
+version: '${project.version}'
+main: com.zeeyeh.multicurrency.MultiCurrency
+api-version: '1.18'
+authors: [LingQi]
+description: 支持多种货币类型的经济插件
+website: https://www.zeeeyh.com/
+commands:
+  multicurrency:
+    description: currency command
+    usage: /<command>
+    aliases:
+      - mcurrency
+      - currency
+permissions:
+  MultiCurrency.basic:
+    default: true
+  MultiCurrency.admin:
+    default: op

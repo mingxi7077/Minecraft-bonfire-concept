@@ -1,0 +1,14 @@
+# 是否启用该插件
+enabled: true
+# 数据源设置
+datasource:
+  # 数据库主机地址
+  host: 127.0.0.1
+  # 数据库端口
+  port: 3306
+  # 数据库用户名
+  username: multi_currency
+  # 数据库密码
+  password: multi_currency
+  # 数据库名
+  database: multi_currency

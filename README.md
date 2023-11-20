@@ -1,6 +1,6 @@
-# 简介
+## 简介
 支持多种货币种类的经济插件
-# 指令
+## 指令
 1. /multicurrency    显示插件帮助
 2. /multicurrency list    列举所有货币种类
 3. /multicurrency create <货币种类名称>    创建一种货币

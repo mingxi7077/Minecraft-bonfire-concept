@@ -86,7 +86,7 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
                 pageLevels = levels;
             }
             for (CareerLevel level : pageLevels) {
-                MessageUtil.sendMessage(sender, i + "&b&l名称:&a&l " + level.getLevelName() + "&f&l,&b&l标题:&a&l " + level.getLevelTitle() + "&f&l,&b&l目前已有玩家数: &c&l" + level.getPlayers().size());
+                MessageUtil.sendMessage(sender, i + ". &b&l名称:&a&l " + level.getLevelName() + "&f&l,&b&l标题:&a&l " + level.getLevelTitle() + "&f&l,&b&l目前已有玩家数: &c&l" + level.getPlayers().size());
                 i++;
             }
             MessageUtil.sendMessage(sender, "");
@@ -96,7 +96,7 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
             Map<String, Object> map = new HashMap<>();
             long id = IdUtil.getSnowflakeNextId();
             if (args.length != 3) {
-                MessageUtil.sendMessage(sender, "&4&l参数有误,正确格式:&e&l /archcareerlevel create <name> <title>");
+                MessageUtil.sendMessage(sender, ". &4&l参数有误,正确格式:&e&l /archcareerlevel create <name> <title>");
                 return true;
             }
             String name = args[1];

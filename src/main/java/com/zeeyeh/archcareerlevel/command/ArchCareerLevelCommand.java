@@ -7,6 +7,7 @@ import com.zeeyeh.archcareer.ArchCareer;
 import com.zeeyeh.archcareer.Career;
 import com.zeeyeh.archcareer.utils.MessageUtil;
 import com.zeeyeh.archcareerlevel.ArchCareerLevel;
+import com.zeeyeh.archcareerlevel.api.ArchCareerLevelLangApi;
 import com.zeeyeh.archcareerlevel.entity.CareerLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -32,21 +33,21 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
             }
         }
         if (!hasRun) {
-            MessageUtil.sendMessage(sender, "&4&l你没有权限这么做");
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("noPermission"));
             return true;
         }
         if (args.length == 0) {
             MessageUtil.sendMessage(sender, "");
-            MessageUtil.sendMessage(sender, "&a&m&l__________&r &b[&6ArchCareer&b] &a&m&l__________");
-            MessageUtil.sendMessage(sender, "&f/&barchcareerlevel                 &a- 显示插件帮助");
-            MessageUtil.sendMessage(sender, "&f/&barchcareerlevel &6list              &a- 列举所有职业等级");
-            MessageUtil.sendMessage(sender, "&f/&barchcareerlevel &6create     &a- 创建一个职业等级");
-            MessageUtil.sendMessage(sender, "&f/&barchcareerlevel &6remove     &a- 删除一个职业等级");
-            MessageUtil.sendMessage(sender, "&f/&barchcareerlevel &6join     &a- 将玩家添加到指定的职业等级");
-            MessageUtil.sendMessage(sender, "&f/&barchcareerlevel &6delete     &a- 将玩家从指定的职业等级中删除");
-            MessageUtil.sendMessage(sender, "&f/&barchcareerlevel &6clear            &a- 清空当前所有职业等级");
-            MessageUtil.sendMessage(sender, "&f/&barchcareerlevel &6reload           &a- 重载插件");
-            MessageUtil.sendMessage(sender, "&a&n&l----------&r &b[&6ArchCareer&b] &a&n&l----------");
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpCommand_0"));
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpCommand_1"));
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpCommand_2"));
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpCommand_3"));
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpCommand_4"));
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpCommand_5"));
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpCommand_6"));
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpCommand_7"));
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpCommand_8"));
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpCommand_9"));
             return true;
         }
         if (args[0].equalsIgnoreCase("list"))
@@ -57,27 +58,39 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
             if (args.length == 2) {
                 int pageNumber = Integer.parseInt(args[1]);
                 if (pageNumber > pages) {
-                    MessageUtil.sendMessage(sender, "&4&l未知页码 &e&l" + pageNumber);
+                    MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("notPageNumber")
+                            .replace("{0}", String.valueOf(pageNumber)));
                     return true;
                 }
                 int pageFirstIndex = pageNumber * pageLimit;
                 if (pageFirstIndex > levels.size()) {
-                    MessageUtil.sendMessage(sender, "&4&l未知索引 &e&l" + pageFirstIndex);
+                    MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("notPageNumber")
+                            .replace("{0}", String.valueOf(pageFirstIndex)));
                     return true;
                 }
                 List<CareerLevel> pageLevels = levels.subList(pageFirstIndex, pageFirstIndex + pageLimit);
                 int i = pageFirstIndex;
                 MessageUtil.sendMessage(sender, "");
-                MessageUtil.sendMessage(sender, "&a&m&l__________&r &b[&6ArchCareerLevel&b] &a&l第&e&l" + pageNumber + "&a&l页&f&l/&a&l共&e&l" + pages + "&a&l页 &a&m&l__________");
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpHeadFoot")
+                        .replace("{0}", String.valueOf(pageNumber))
+                        .replace("{1}", String.valueOf(pages)));
                 for (CareerLevel level : pageLevels) {
-                    MessageUtil.sendMessage(sender, i + "&b&l名称:&a&l " + level.getLevelName() + "&f&l,&b&l标题:&a&l " + level.getLevelTitle() + "&f&l,&b&l目前已有玩家数: &c&l" + level.getPlayers().size());
+                    MessageUtil.sendMessage(sender, i + ". " +
+                            ArchCareerLevelLangApi.translate("helpLine")
+                                    .replace("{0}", level.getLevelName())
+                                    .replace("{1}", level.getLevelTitle())
+                                    .replace("{2}", String.valueOf(level.getPlayers().size()))
+                    );
                     i++;
                 }
-                MessageUtil.sendMessage(sender, "&a&n&l----------&r &b[&6ArchCareerLevel&b] &a&l第&e&l" + pageNumber + "&a&l页&f&l/&a&l共&e&l" + pages + "&a&l页 &a&n&l----------");
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpHeadFoot")
+                        .replace("{0}", String.valueOf(pageNumber))
+                        .replace("{1}", String.valueOf(pages)));
             }
             int i = 1;
             MessageUtil.sendMessage(sender, "");
-            MessageUtil.sendMessage(sender, "&a&m&l__________&r &b[&6ArchCareer&b] &a&l第&e&l1&a&l页&f&l/&a&l共&e&l" + pages + "&a&l页 &a&m&l__________");
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("oneHelpHeadFoot")
+                    .replace("{0}", String.valueOf(pages)));
             MessageUtil.sendMessage(sender, "");
             List<CareerLevel> pageLevels;
             if (levels.size() > 10) {
@@ -86,17 +99,24 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
                 pageLevels = levels;
             }
             for (CareerLevel level : pageLevels) {
-                MessageUtil.sendMessage(sender, i + ". &b&l名称:&a&l " + level.getLevelName() + "&f&l,&b&l标题:&a&l " + level.getLevelTitle() + "&f&l,&b&l目前已有玩家数: &c&l" + level.getPlayers().size());
+                MessageUtil.sendMessage(sender, i + ". " +
+                        ArchCareerLevelLangApi.translate("helpLine")
+                                .replace("{0}", level.getLevelName())
+                                .replace("{1}", level.getLevelTitle())
+                                .replace("{2}", String.valueOf(level.getPlayers().size()))
+                );
                 i++;
             }
             MessageUtil.sendMessage(sender, "");
-            MessageUtil.sendMessage(sender, "&a&n&l----------&r &b[&6ArchCareer&b] &a&l第&e&l1&a&l页&f&l/&a&l共&e&l" + pages + "&a&l页  &a&n&l----------");
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("oneHelpHeadFoot")
+                    .replace("{0}", String.valueOf(pages)));
         } else if (args[0].equalsIgnoreCase("create"))
         {
             Map<String, Object> map = new HashMap<>();
             long id = IdUtil.getSnowflakeNextId();
             if (args.length != 3) {
-                MessageUtil.sendMessage(sender, ". &4&l参数有误,正确格式:&e&l /archcareerlevel create <name> <title>");
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("formatError")
+                        .replace("{0}", "/archcareerlevel create <name> <title>"));
                 return true;
             }
             String name = args[1];
@@ -117,10 +137,10 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
                     file.createNewFile();
                 }
                 YamlUtil.dump(map, new FileWriter(file));
-                MessageUtil.sendMessage(sender, "&a职业等级创建成功");
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("careerCreatedSuccessfully"));
             } catch (IOException e) {
                 e.printStackTrace();
-                MessageUtil.sendMessage(sender, "&4&l职业等级创建失败，请手动在数据目录中创建配置文件");
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("careerCreatedError"));
                 return true;
             }
         } else if (args[0].equalsIgnoreCase("remove"))
@@ -136,32 +156,38 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
                     careerConfigFile.delete();
                 }
             }
-            MessageUtil.sendMessage(sender, "&a&l职业等级删除成功");
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("careerDeleteSuccessfully"));
         }
         else if (args[0].equalsIgnoreCase("join"))
         {
             if (args.length != 3) {
-                MessageUtil.sendMessage(sender, "&4&l参数有误,正确格式:&e&l /archcareerlevel join <playerName> <levelName>");
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("formatError")
+                        .replace("{0}", "/archcareerlevel join <playerName> <levelName>"));
                 return true;
             }
             String playerName = args[1];
             String levelName = args[2];
             ArchCareerLevel.getInstance().getCareerLevelManager().addPlayer(playerName, levelName, sender);
-            MessageUtil.sendMessage(sender, "&a&l玩家&e&l" + playerName + "&a&l职业等级成功提示至&e&l" + levelName);
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("levelUpping")
+                    .replace("{0}", playerName)
+                    .replace("{1}", levelName));
         }else if (args[0].equalsIgnoreCase("delete"))
         {
             if (args.length != 3) {
-                MessageUtil.sendMessage(sender, "&4&l参数有误,正确格式:&e&l /archcareerlevel delete <playerName> <levelName>");
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("formatError")
+                        .replace("{0}", "/archcareerlevel delete <playerName> <levelName>"));
                 return true;
             }
             String playerName = args[1];
             String levelName = args[2];
             ArchCareerLevel.getInstance().getCareerLevelManager().removePlayer(playerName, levelName, sender);
-            MessageUtil.sendMessage(sender, "&a&l玩家&e&l" + playerName + "&a&l职业等级已不再为&e&l" + levelName);
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("levelDowning")
+                    .replace("{0}", playerName)
+                    .replace("{1}", levelName));
         } else if (args[0].equalsIgnoreCase("clear"))
         {
             if (args.length != 2) {
-                MessageUtil.sendMessage(sender, "&4&l出于安全考虑，请重新键入 &e&l/archcareerlevel clear confirm &4&l指令继续下一步");
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("commandConfirm"));
                 return true;
             }
             if (args[1].equalsIgnoreCase("confirm")) {
@@ -174,13 +200,13 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
                     file.delete();
                 }
             }
-            MessageUtil.sendMessage(sender, "&4&l职业等级清空完成");
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("careerClearSuccessfully"));
         } else if (args[0].equalsIgnoreCase("reload"))
         {
             ArchCareerLevel.getInstance().getConfigManager().reload();
             ArchCareerLevel.getInstance().getCareerLevelManager().reload();
             ArchCareerLevel.getInstance().reloadConfig();
-            MessageUtil.sendMessage(sender, "&e&l插件重载完毕");
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("careerReloadSuccessfully"));
         }
         return true;
     }

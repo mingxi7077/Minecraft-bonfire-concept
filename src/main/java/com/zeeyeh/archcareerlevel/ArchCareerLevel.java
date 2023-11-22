@@ -3,10 +3,13 @@ package com.zeeyeh.archcareerlevel;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.zeeyeh.archcareerlevel.api.ArchCareerLevelLangApi;
 import com.zeeyeh.archcareerlevel.command.ArchCareerLevelCommand;
 import com.zeeyeh.archcareerlevel.entity.CareerLevel;
 import com.zeeyeh.archcareerlevel.manager.ArchCareerLevelManagerProvider;
 import com.zeeyeh.archcareerlevel.manager.ConfigManagerProvider;
+import com.zeeyeh.archcareerlevel.utils.MessageUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,6 +41,7 @@ public final class ArchCareerLevel extends JavaPlugin implements PluginMessageLi
             ArchCareerLevelCommand archCareerLevelCommand = new ArchCareerLevelCommand();
             getCommand("archcareerlevel").setExecutor(archCareerLevelCommand);
             getCommand("archcareerlevel").setTabCompleter(archCareerLevelCommand);
+            MessageUtil.sendMessage(Bukkit.getConsoleSender(), ArchCareerLevelLangApi.translate("loadedPlugin"));
         }
     }
 

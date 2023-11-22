@@ -5,6 +5,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.setting.yaml.YamlUtil;
 import com.zeeyeh.archcareer.ArchCareer;
 import com.zeeyeh.archcareerlevel.ArchCareerLevel;
+import com.zeeyeh.archcareerlevel.api.ArchCareerLevelLangApi;
 import com.zeeyeh.archcareerlevel.entity.CareerLevel;
 import com.zeeyeh.archcareerlevel.utils.MessageUtil;
 import org.bukkit.Bukkit;
@@ -28,7 +29,7 @@ public class ArchCareerLevelManagerProvider {
         String path = ArchCareerLevel.getInstance().getConfigManager().getConfig("config").getString("path");
         File folder = new File(ArchCareerLevel.getInstance().getDataFolder(), path);
         List<File> levelFiles = FileUtil.loopFiles(folder);
-        MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&b正在加载职业等级...");
+        MessageUtil.sendMessage(Bukkit.getConsoleSender(), ArchCareerLevelLangApi.translate("loadingArchCareerLevel"));
         for (File levelFile : levelFiles) {
             YamlConfiguration configuration = YamlConfiguration.loadConfiguration(levelFile);
             ConfigurationSection section = configuration.getConfigurationSection("level");
@@ -37,9 +38,9 @@ public class ArchCareerLevelManagerProvider {
             String title = section.getString("title");
             List<String> players = section.getStringList("players");
             levels.add(new CareerLevel(id, name, title, players));
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&b已成功加载职业等级: &e " + levelFile.getName());
+            MessageUtil.sendMessage(Bukkit.getConsoleSender(), ArchCareerLevelLangApi.translate("loadArchCareerLevel").replace("{0}", levelFile.getName()));
         }
-        MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&b职业等级加载完成...");
+        MessageUtil.sendMessage(Bukkit.getConsoleSender(), ArchCareerLevelLangApi.translate("loadedArchCareerLevel"));
     }
 
     public boolean registerLevel(long id, String name, String title, List<String> players) {
@@ -98,7 +99,7 @@ public class ArchCareerLevelManagerProvider {
 
     public boolean addPlayer(String playerName, String levelName, CommandSender sender) {
         if (existPlayer(playerName, levelName)) {
-            MessageUtil.sendMessage(sender, "&4该玩家已处于目标状态");
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("alreadyInLevel"));
             return false;
         }
         for (CareerLevel level : levels) {
@@ -112,7 +113,7 @@ public class ArchCareerLevelManagerProvider {
 
     public boolean removePlayer(String playerName, String levelName, CommandSender sender) {
         if (!existPlayer(playerName, levelName)) {
-            MessageUtil.sendMessage(sender, "&4该玩家未处于目标状态");
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("cloudFindInLevel"));
             return false;
         }
         for (CareerLevel level : levels) {
@@ -129,7 +130,7 @@ public class ArchCareerLevelManagerProvider {
         try {
             YamlUtil.dump(level, new FileWriter(new File( new File(ArchCareerLevel.getInstance().getDataFolder(), careerLevelFolder),level.getLevelName() + ".yml")));
         } catch (IOException e) {
-            MessageUtil.sendMessage(sender, "&4玩家状态设置错误");
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("settingPlayerLevelError"));
             e.printStackTrace();
             return false;
         }

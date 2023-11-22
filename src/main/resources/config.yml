@@ -1,0 +1,4 @@
+# 是否启用改插件
+enabled: true
+# 等级保存目录路径
+path: levels

@@ -1,0 +1,15 @@
+name: ArchCareerLevel
+version: '${project.version}'
+main: com.zeeyeh.archcareerlevel.ArchCareerLevel
+api-version: '1.18'
+commands:
+  archcareerlevel:
+    description: ArchCareer level command
+    usage: /<command>
+    aliases:
+      - acareerlevel
+      - aclevel
+      - acl
+permissions:
+  ArchCareerLevel.admin:
+    default: op

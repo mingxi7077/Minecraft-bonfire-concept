@@ -117,10 +117,10 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
                     file.createNewFile();
                 }
                 YamlUtil.dump(map, new FileWriter(file));
-                MessageUtil.sendMessage(sender, "&a职业创建成功");
+                MessageUtil.sendMessage(sender, "&a职业等级创建成功");
             } catch (IOException e) {
                 e.printStackTrace();
-                MessageUtil.sendMessage(sender, "&4&l职业创建失败，请手动在数据目录中创建配置文件");
+                MessageUtil.sendMessage(sender, "&4&l职业等级创建失败，请手动在数据目录中创建配置文件");
                 return true;
             }
         } else if (args[0].equalsIgnoreCase("remove"))
@@ -136,7 +136,7 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
                     careerConfigFile.delete();
                 }
             }
-            MessageUtil.sendMessage(sender, "&a&l职业删除成功");
+            MessageUtil.sendMessage(sender, "&a&l职业等级删除成功");
         }
         else if (args[0].equalsIgnoreCase("join"))
         {

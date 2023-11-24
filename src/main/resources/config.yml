@@ -1,0 +1,5 @@
+# 是否启用插件
+enabled: true
+# 闲置方块
+no-destruct-maps:
+  - ''

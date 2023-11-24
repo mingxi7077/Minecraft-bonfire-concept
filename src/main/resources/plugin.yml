@@ -1,0 +1,21 @@
+name: InfiniteMining
+version: '${project.version}'
+main: com.zeeyeh.infinitemining.InfiniteMining
+api-version: '1.18'
+authors: [ LingQi ]
+description: 一个简单的无限矿区插件
+website: http://www.zeeyeh.com
+commands:
+  infinitemining:
+    description: InfiniteMining commands
+    usage: /<command>
+    aliases:
+      - iftmining
+      - ftmining
+      - tmining
+      - mining
+permissions:
+  InfiniteMining.Basic:
+    default: true
+  InfiniteMining.Admin:
+    default: op

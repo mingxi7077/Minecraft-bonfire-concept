@@ -69,7 +69,7 @@ public class LanguageManager {
 
     public Object translate(String path) {
         if (langName == null) {
-            Bukkit.getConsoleSender().sendMessage("[ZeeyehX] Plugin language configuration error, please go to the " +
+            Bukkit.getConsoleSender().sendMessage("Plugin language configuration error, please go to the " +
                     new File(ArchCareer.getInstance().getDataFolder(), "config.yml").getAbsolutePath() +
                     " file in a timely manner and fix it on line 6(item: locale).");
             return "";

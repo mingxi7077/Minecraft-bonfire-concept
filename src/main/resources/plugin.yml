@@ -1,0 +1,17 @@
+name: ArchCareer
+version: '${project.version}'
+main: com.zeeyeh.archcareer.ArchCareer
+api-version: '1.18'
+authors: [LingQi]
+description: 职业模组
+website: https://www.zeeyeh.com
+commands:
+  archcareer:
+    description: Career command
+    usage: /<command>
+    aliases:
+      - acareer
+      - career
+permissions:
+  ArchCareer.admin:
+    default: op

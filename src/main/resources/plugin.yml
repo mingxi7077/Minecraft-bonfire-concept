@@ -15,7 +15,7 @@ commands:
       - tmining
       - mining
 permissions:
-  InfiniteMining.Basic:
+  InfiniteMining.basic:
     default: true
-  InfiniteMining.Admin:
+  InfiniteMining.admin:
     default: op

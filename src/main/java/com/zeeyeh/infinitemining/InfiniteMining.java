@@ -5,6 +5,7 @@ package com.zeeyeh.infinitemining;
 //import com.google.gson.JsonObject;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.zeeyeh.infinitemining.api.InfiniteMiningLangApi;
 import com.zeeyeh.infinitemining.entity.CreatesSettingMap;
 import com.zeeyeh.infinitemining.entity.Mining;
 import com.zeeyeh.infinitemining.utils.MessageUtil;
@@ -98,50 +99,59 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Set<PermissionAttachmentInfo> effectivePermissions = sender.getEffectivePermissions();
-        for (PermissionAttachmentInfo effectivePermission : effectivePermissions) {
-            if (!effectivePermission.getPermission().equalsIgnoreCase("InfiniteMining.Basic")) {
-                MessageUtil.send(sender, "&4你没有权限这么做");
-                return true;
-            }
-        }
         if (args.length == 0) {
-            MessageUtil.send(sender, "&b/infinitemining           - &a帮助菜单");
-            MessageUtil.send(sender, "&b/infinitemining create    - &a创建矿产");
-            MessageUtil.send(sender, "&b/infinitemining remove    - &a删除矿产");
-            MessageUtil.send(sender, "&b/infinitemining set       - &a设置矿产属性");
-            MessageUtil.send(sender, "&b/infinitemining save      - &a保存矿产");
-            MessageUtil.send(sender, "&b/infinitemining cancel    - &a取消创建矿产");
-            MessageUtil.send(sender, "&b/infinitemining clear     - &a清空现有所以矿产");
-            MessageUtil.send(sender, "&b/infinitemining reload    - &a重载插件");
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("helpCommand_0"));
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("helpCommand_1"));
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("helpCommand_2"));
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("helpCommand_3"));
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("helpCommand_4"));
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("helpCommand_5"));
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("helpCommand_6"));
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("helpCommand_7"));
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("helpCommand_8"));
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("helpCommand_9"));
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("helpCommand_10"));
+            return true;
+        }
+        if (hasPermission(sender, "InfiniteMining.basic")) {
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("noPermission"));
             return true;
         }
         Player player = (Player) sender;
         if (args[0].equalsIgnoreCase("create"))
         {
+            if (hasPermission(sender, "InfiniteMining.admin")) {
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("noPermission"));
+                return true;
+            }
             playerCreates.put(player.getName(), new JSONObject());
-            MessageUtil.send(sender, "&a已开启创建配置模式");
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("createEditMode"));
         }
         else if (args[0].equalsIgnoreCase("remove"))
         {
+            if (hasPermission(sender, "InfiniteMining.admin")) {
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("noPermission"));
+                return true;
+            }
             if (args.length != 2) {
-                MessageUtil.send(sender, "&4格式错误,应为: /<command> remove <name>");
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("formatError")
+                        .replace("{0}", "/<command> remove <name>"));
                 return true;
             }
             String saveName = args[1];
             File file = new File(new File(getDataFolder(), "minings"), saveName + ".json");
             if (!file.exists()) {
-                MessageUtil.send(sender, "&4配置不存在");
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("configNotFind"));
                 return true;
             }
             try {
                 Files.delete(file.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
-                MessageUtil.send(sender, "&4配置删除失败, 详情请查看控制台报错信息");
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("configRemoveError"));
                 return true;
             }
-            MessageUtil.send(sender, "&a配置删除成功");
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("configRemoveSuccessfully"));
             disablesMiningRefresh();
             getMiningManager().reload();
             registerMiningRefresh();
@@ -149,20 +159,25 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
         }
         else if (args[0].equalsIgnoreCase("set"))
         {
+            if (hasPermission(sender, "InfiniteMining.admin")) {
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("noPermission"));
+                return true;
+            }
             if (hasCreateStatics(player.getName())) {
                 // 未处于建设状态
-                MessageUtil.send(sender, "&4目前未处于创建配置模式");
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("isNotEditMode"));
                 return true;
             }
             if (args.length < 2) {
                 // 格式错误
-                MessageUtil.send(sender, "&4格式错误,应为: /<command> set <key> [value]");
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("formatError")
+                        .replace("{0}", "/<command> set <key> [value]"));
                 return true;
             }
             String option = args[1];
             if (!CreatesSettingMap.listKeys().contains(option)) {
                 // 未知设置类型
-                MessageUtil.send(sender, "&4未知属性名");
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("unknownAttributeName"));
                 return true;
             }
             if (args.length == 3) {
@@ -173,14 +188,19 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
         }
         else if (args[0].equalsIgnoreCase("save"))
         {
+            if (hasPermission(sender, "InfiniteMining.admin")) {
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("noPermission"));
+                return true;
+            }
             if (hasCreateStatics(player.getName())) {
                 // 未处于建设状态
-                MessageUtil.send(sender, "&4目前未处于创建配置模式");
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("isNotEditMode"));
                 return true;
             }
             if (args.length != 2) {
                 // 语法不正确
-                MessageUtil.send(sender, "&4格式错误, 应为: /<command> save <name>");
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("formatError")
+                        .replace("{0}", "/<command> save <name>"));
                 return true;
             }
             String saveName = args[1];
@@ -213,7 +233,8 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
             }
             if (!isFinish) {
                 // 缺失必要配置项
-                MessageUtil.send(sender, "&4配置保存失败!缺失必要配置项: " + missingString);
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("configSaveErrorIncomplete")
+                        .replace("{0}", missingString));
                 return true;
             }
             JSONObject object = playerCreates.get(player.getName());
@@ -230,10 +251,11 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
                 Files.writeString(file.toPath(), jsonString);
             } catch (IOException e) {
                 e.printStackTrace();
-                MessageUtil.send(sender, "&4配置保存失败，详情查看控制台报错信息");
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("configSaveError"));
                 return true;
             }
-            MessageUtil.send(sender, "&a配置保存成功");
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("configSaveSuccessfully"));
+            playerCreates.remove(player.getName());
             disablesMiningRefresh();
             getMiningManager().reload();
             registerMiningRefresh();
@@ -241,16 +263,24 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
         }
         else if (args[0].equalsIgnoreCase("cancel"))
         {
+            if (hasPermission(sender, "InfiniteMining.admin")) {
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("noPermission"));
+                return true;
+            }
             if (hasCreateStatics(player.getName())) {
                 // 未处于建设状态
-                MessageUtil.send(sender, "&4目前未处于创建配置模式");
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("isNotEditMode"));
                 return true;
             }
             playerCreates.remove(player.getName());
-            MessageUtil.send(sender, "&a成功取消创建配置");
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("cancelCreateConfig"));
         }
         else if (args[0].equalsIgnoreCase("clear"))
         {
+            if (hasPermission(sender, "InfiniteMining.admin")) {
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("noPermission"));
+                return true;
+            }
             File file = new File(getDataFolder(), "minings");
             File[] files = file.listFiles(pathname -> pathname.getName().endsWith(".json") && pathname.isFile());
             if (files == null) {
@@ -262,18 +292,33 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                MessageUtil.send(sender, "&4配置清空失败，详情查看控制台报错信息");
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("clearConfigError"));
             }
-            MessageUtil.send(sender, "&a配置清空成功");
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("clearConfig"));
         }
         else if (args[0].equalsIgnoreCase("reload"))
         {
+            if (hasPermission(sender, "InfiniteMining.admin")) {
+                MessageUtil.send(sender, InfiniteMiningLangApi.translate("noPermission"));
+                return true;
+            }
             reloadConfig();
             getMiningManager().reload();
-            MessageUtil.send(sender, "&a配置重载完成");
+            MessageUtil.send(sender, InfiniteMiningLangApi.translate("reloadPlugin"));
         }
         return true;
     }
+
+    public boolean hasPermission(CommandSender sender, String permission) {
+        Set<PermissionAttachmentInfo> effectivePermissions = sender.getEffectivePermissions();
+        for (PermissionAttachmentInfo effectivePermission : effectivePermissions) {
+            if (!effectivePermission.getPermission().equalsIgnoreCase(permission)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public boolean addCreateConfig(String option, Player player, Object key) {
         JSONObject jsonObject = playerCreates.get(player.getName());
@@ -291,7 +336,8 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
                     jsonObject.remove(CreatesSettingMap.POSITION.getKey());
                 }
                 jsonObject.put(CreatesSettingMap.POSITION.getKey(), locationJsonObject);
-                MessageUtil.send(player, "&a配置项 'location' 设置完成");
+                MessageUtil.send(player, InfiniteMiningLangApi.translate("configPropertiesSetSuccessfully")
+                        .replace("{0}", "location"));
                 return true;
             }
             case "title" -> {
@@ -300,7 +346,8 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
                     jsonObject.remove(CreatesSettingMap.TITLE.getKey());
                 }
                 jsonObject.put(CreatesSettingMap.TITLE.getKey(), MessageUtil.serialize(titleString));
-                MessageUtil.send(player, "&a配置项 'title' 设置完成");
+                MessageUtil.send(player, InfiniteMiningLangApi.translate("configPropertiesSetSuccessfully")
+                        .replace("{0}", "title"));
                 return true;
             }
             case "xp" -> {
@@ -309,7 +356,8 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
                     jsonObject.remove(CreatesSettingMap.XP.getKey());
                 }
                 jsonObject.put(CreatesSettingMap.XP.getKey(), xp);
-                MessageUtil.send(player, "&a配置项 'xp' 设置完成");
+                MessageUtil.send(player, InfiniteMiningLangApi.translate("configPropertiesSetSuccessfully")
+                        .replace("{0}", "xp"));
                 return true;
             }
             case "xpLevel" -> {
@@ -318,7 +366,8 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
                     jsonObject.remove(CreatesSettingMap.XP_LEVEL.getKey());
                 }
                 jsonObject.put(CreatesSettingMap.XP_LEVEL.getKey(), xpLevel);
-                MessageUtil.send(player, "&a配置项 'xpLevel' 设置完成");
+                MessageUtil.send(player, InfiniteMiningLangApi.translate("configPropertiesSetSuccessfully")
+                        .replace("{0}", "xpLevel"));
                 return true;
             }
             case "command" -> {
@@ -327,7 +376,8 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
                     jsonObject.remove(CreatesSettingMap.COMMAND.getKey());
                 }
                 jsonObject.put(CreatesSettingMap.COMMAND.getKey(), commandString);
-                MessageUtil.send(player, "&a配置项 'command' 设置完成");
+                MessageUtil.send(player, InfiniteMiningLangApi.translate("configPropertiesSetSuccessfully")
+                        .replace("{0}", "command"));
                 return true;
             }
             case "material" -> {
@@ -341,7 +391,8 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
                     jsonObject.remove(CreatesSettingMap.MATERIAL.getKey());
                 }
                 jsonObject.put(CreatesSettingMap.MATERIAL.getKey(), blockKey);
-                MessageUtil.send(player, "&a配置项 'material' 设置完成");
+                MessageUtil.send(player, InfiniteMiningLangApi.translate("configPropertiesSetSuccessfully")
+                        .replace("{0}", "material"));
                 return true;
             }
             case "interval" -> {
@@ -350,7 +401,8 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
                     jsonObject.remove(CreatesSettingMap.INTERVAL.getKey());
                 }
                 jsonObject.put(CreatesSettingMap.INTERVAL.getKey(), interval);
-                MessageUtil.send(player, "&a配置项 'interval' 设置完成");
+                MessageUtil.send(player, InfiniteMiningLangApi.translate("configPropertiesSetSuccessfully")
+                        .replace("{0}", "interval"));
                 return true;
             }
             case "tip" -> {
@@ -359,7 +411,8 @@ public final class InfiniteMining extends JavaPlugin implements CommandExecutor,
                     jsonObject.remove(CreatesSettingMap.TIP.getKey());
                 }
                 jsonObject.put(CreatesSettingMap.TIP.getKey(), MessageUtil.serialize(tipString));
-                MessageUtil.send(player, "&a配置项 'tip' 设置完成");
+                MessageUtil.send(player, InfiniteMiningLangApi.translate("configPropertiesSetSuccessfully")
+                        .replace("{0}", "tip"));
                 return true;
             }
         }

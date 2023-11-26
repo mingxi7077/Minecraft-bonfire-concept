@@ -45,13 +45,6 @@ public class PLayerMiningListener implements Listener {
                 saveLocationWorld != blockLocationWorld) {
             return;
         }
-        //System.out.println("===============");
-        //System.out.println(block.getLocation());
-        //System.out.println(saveLocation);
-        //System.out.println("===============");
-        //if (!block.getLocation().equals(saveLocation)) {
-        //    return;
-        //}
         String tip = mining.getTip();
         if (tip.contains("[") && tip.contains("]")) {
             String[] tips = tip.split("]");

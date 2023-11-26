@@ -1,6 +1,7 @@
 package com.zeeyeh.archcareer;
 
 import cn.hutool.core.io.FileUtil;
+import com.zeeyeh.archcareer.api.ArchCareerLangApi;
 import com.zeeyeh.archcareer.api.CareerManager;
 import com.zeeyeh.archcareer.command.ArchCareerCommand;
 import com.zeeyeh.archcareer.manager.CareerManagerProvider;
@@ -26,26 +27,11 @@ public final class ArchCareer extends JavaPlugin {
         saveDefaultConfig();
         instance = this;
         if (getConfig().getBoolean("enabled")) {
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&a&l插件正在加载中...");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&b=================================================================");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&b    ___              __    ______");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&b   /   |  __________/ /_  / ____/___ _________  ___  _____");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&b  / /| | / ___/ ___/ __ \\/ /   / __ `/ ___/ _ \\/ _ \\/ ___/");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&b / ___ |/ /  / /__/ / / / /___/ /_/ / /  /  __/  __/ /   ");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&b/_/  |_/_/   \\___/_/ /_/\\____/\\__,_/_/   \\___/\\___/_/");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&a&lBy:&b&n&l Zeeyeh Studio,&r&a&lWebsite:&e&n&l https://www.zeeyeh.com/");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&b=================================================================");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "");
             careerManager = new CareerManagerProvider();
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&a&l正在加载配置...");
             configManager = new ConfigManagerProvider();
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&a&l配置加载完毕");
             String careersFolderPath = configManager.getConfig("config").getString("path");
             if (careersFolderPath == null) {
-                MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&4职业目录路径配置错误");
+                MessageUtil.sendMessage(Bukkit.getConsoleSender(), ArchCareerLangApi.translate("careersFolderPathError"));
                 Bukkit.getPluginManager().disablePlugin(this);
                 return;
             }
@@ -59,17 +45,14 @@ public final class ArchCareer extends JavaPlugin {
             ArchCareerCommand archCareerCommand = new ArchCareerCommand();
             Objects.requireNonNull(getCommand("archcareer")).setExecutor(archCareerCommand);
             Objects.requireNonNull(getCommand("archcareer")).setTabCompleter(archCareerCommand);
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&a插件定制，问题咨询、反馈&cQQ:&e&n&l3615331065");
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&a插件加载完毕");
+            MessageUtil.sendMessage(Bukkit.getConsoleSender(), ArchCareerLangApi.translate("pluginLoaded"));
         }
     }
 
     public void initCareers() {
         String dataPath = ArchCareer.getInstance().getConfigManager().getConfig("config").getString("path");
         List<File> careerFiles = FileUtil.loopFiles(new File(getDataFolder(), dataPath), file -> file.getName().endsWith(".yml"));
-        MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&a&l正在加载职业");
+        MessageUtil.sendMessage(Bukkit.getConsoleSender(), ArchCareerLangApi.translate("loadCareers"));
             for (File careerFile : careerFiles) {
                 try {
                     YamlConfiguration configuration = YamlConfiguration.loadConfiguration(careerFile);
@@ -80,15 +63,15 @@ public final class ArchCareer extends JavaPlugin {
                     long id = careerSection.getLong("id");
                     String name = careerSection.getString("name");
                     String title = careerSection.getString("title");
-                    MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&a&l职业: " + careerFile.getName() + " 加载成功");
+                    MessageUtil.sendMessage(Bukkit.getConsoleSender(), ArchCareerLangApi.translate("loadedCareerSuccessfully").replace("{0}", careerFile.getName()));
                     List<String> players = careerSection.getStringList("players");
                     ArchCareer.getInstance().getCareerManager().registerCareer(id, name, title, players);
                 } catch (Exception e) {
-                    MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&4&l职业: " + careerFile.getName() + " 加载失败");
+                    MessageUtil.sendMessage(Bukkit.getConsoleSender(), ArchCareerLangApi.translate("loadedCareerException").replace("{0}", careerFile.getName()));
                     e.printStackTrace();
                 }
             }
-        MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&a&l职业加载完毕");
+        MessageUtil.sendMessage(Bukkit.getConsoleSender(), ArchCareerLangApi.translate("loadedCareers"));
     }
 
     public static ArchCareer getInstance() {

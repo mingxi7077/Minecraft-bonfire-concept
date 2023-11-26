@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.setting.yaml.YamlUtil;
 import com.zeeyeh.archcareer.ArchCareer;
 import com.zeeyeh.archcareer.Career;
+import com.zeeyeh.archcareer.api.ArchCareerLangApi;
 import com.zeeyeh.archcareer.utils.MessageUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,32 +21,31 @@ import java.util.*;
 public class ArchCareerCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            Set<PermissionAttachmentInfo> effectivePermissions = player.getEffectivePermissions();
-            boolean isRun = false;
-            for (PermissionAttachmentInfo info : effectivePermissions) {
-                if (info.getPermission().equalsIgnoreCase("archcareer.admin")) {
-                    isRun = true;
-                    break;
-                }
+        Player player = (Player) sender;
+        Set<PermissionAttachmentInfo> effectivePermissions = player.getEffectivePermissions();
+        boolean isRun = false;
+        for (PermissionAttachmentInfo info : effectivePermissions) {
+            if (info.getPermission().equalsIgnoreCase("archcareer.admin")) {
+                isRun = true;
+                break;
             }
-            if (!isRun) {
-                MessageUtil.sendMessage(sender, "&4&l你没有权限这么做");
-                return true;
-            }
+        }
+        if (!isRun) {
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("noPermission"));
+            return true;
         }
         if (args.length == 0) {
             // 帮助
             MessageUtil.sendMessage(sender, "");
-            MessageUtil.sendMessage(sender, "&a&m&l__________&r &b[&6ArchCareer&b] &a&m&l__________");
-            MessageUtil.sendMessage(sender, "&f/&barchcareer                 &a- 显示插件帮助");
-            MessageUtil.sendMessage(sender, "&f/&barchcareer &6list              &a- 列举所有职业");
-            MessageUtil.sendMessage(sender, "&f/&barchcareer &6create &c<name>    &a- 创建一个职业");
-            MessageUtil.sendMessage(sender, "&f/&barchcareer &6remove &c<name>    &a- 删除一个职业");
-            MessageUtil.sendMessage(sender, "&f/&barchcareer &6clear            &a- 清空当前所有职业");
-            MessageUtil.sendMessage(sender, "&f/&barchcareer &6reload           &a- 重载插件");
-            MessageUtil.sendMessage(sender, "&a&n&l----------&r &b[&6ArchCareer&b] &a&n&l----------");
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("helpCommand_0"));
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("helpCommand_1"));
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("helpCommand_2"));
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("helpCommand_3"));
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("helpCommand_4"));
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("helpCommand_5"));
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("helpCommand_6"));
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("helpCommand_7"));
+            MessageUtil.sendMessage(sender, "");
             return true;
         }
         if (args[0].equalsIgnoreCase("list")) {
@@ -56,27 +56,39 @@ public class ArchCareerCommand implements CommandExecutor, TabCompleter {
             if (args.length == 2) {
                 int pageNumber = Integer.parseInt(args[1]);
                 if (pageNumber > pages) {
-                    MessageUtil.sendMessage(sender, "&4&l未知页码 &e&l" + pageNumber);
+                    MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("notPageNumber").replace("{0}", String.valueOf(pageNumber)));
                     return true;
                 }
                 int pageFirstIndex = pageNumber * pageLimit;
                 if (pageFirstIndex > careers.size()) {
-                    MessageUtil.sendMessage(sender, "&4&l未知索引 &e&l" + pageFirstIndex);
+                    MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("notPageNumber").replace("{0}", String.valueOf(pageFirstIndex)));
                     return true;
                 }
                 List<Career> pageCareers = careers.subList(pageFirstIndex, pageFirstIndex + pageLimit);
                 int i = pageFirstIndex;
                 MessageUtil.sendMessage(sender, "");
-                MessageUtil.sendMessage(sender, "&a&m&l__________&r &b[&6ArchCareer&b] &a&l第&e&l" + pageNumber + "&a&l页&f&l/&a&l共&e&l" + pages + "&a&l页 &a&m&l__________");
+                MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("pageHeadFoot")
+                        .replace("{0}", String.valueOf(pageNumber))
+                        .replace("{1}", String.valueOf(pages))
+                );
                 for (Career career : pageCareers) {
-                    MessageUtil.sendMessage(sender, i + "&b&l名称:&a&l " + career.getName() + "&f&l,&b&l标题:&a&l " + career.getTitle() + "&f&l,&b&l目前已有玩家数: &c&l" + career.getPlayerName().size());
+                    MessageUtil.sendMessage(sender, i + ". " + ArchCareerLangApi.translate("pageLine")
+                            .replace("{0}", career.getName())
+                            .replace("{1}", career.getTitle())
+                            .replace("{2}", String.valueOf(career.getPlayerName().size()))
+                    );
                     i++;
                 }
-                MessageUtil.sendMessage(sender, "&a&n&l----------&r &b[&6ArchCareer&b] &a&l第&e&l" + pageNumber + "&a&l页&f&l/&a&l共&e&l" + pages + "&a&l页 &a&n&l----------");
+                MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("pageHeadFoot")
+                        .replace("{0}", String.valueOf(pageNumber))
+                        .replace("{1}", String.valueOf(pages))
+                );
             }
             int i = 1;
             MessageUtil.sendMessage(sender, "");
-            MessageUtil.sendMessage(sender, "&a&m&l__________&r &b[&6ArchCareer&b] &a&l第&e&l1&a&l页&f&l/&a&l共&e&l" + pages + "&a&l页 &a&m&l__________");
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("pageHeadFoot")
+                    .replace("{0}", String.valueOf(pages))
+            );
             MessageUtil.sendMessage(sender, "");
             List<Career> pageCareers;
             if (careers.size() > 10) {
@@ -85,17 +97,24 @@ public class ArchCareerCommand implements CommandExecutor, TabCompleter {
                 pageCareers = careers;
             }
             for (Career career : pageCareers) {
-                MessageUtil.sendMessage(sender, i + "&b&l名称:&a&l " + career.getName() + "&f&l,&b&l标题:&a&l " + career.getTitle() + "&f&l,&b&l目前已有玩家数: &c&l" + career.getPlayerName().size());
+                MessageUtil.sendMessage(sender, i + ". " + ArchCareerLangApi.translate("pageLine")
+                        .replace("{0}", career.getName())
+                        .replace("{1}", career.getTitle())
+                        .replace("{2}", String.valueOf(career.getPlayerName().size()))
+                );
                 i++;
             }
             MessageUtil.sendMessage(sender, "");
-            MessageUtil.sendMessage(sender, "&a&n&l----------&r &b[&6ArchCareer&b] &a&l第&e&l1&a&l页&f&l/&a&l共&e&l" + pages + "&a&l页  &a&n&l----------");
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("pageHeadFoot")
+                    .replace("{0}", String.valueOf(pages))
+            );
         } else if (args[0].equalsIgnoreCase("create")) {
             // 创建
             Map<String, Object> map = new HashMap<>();
             long id = IdUtil.getSnowflakeNextId();
             if (args.length != 3) {
-                MessageUtil.sendMessage(sender, "&4&l参数有误,正确格式:&e&l /archcareer create <name> <title>");
+                MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("formatError")
+                        .replace("{0}", "/archcareer create <name> <title>"));
                 return true;
             }
             String name = args[1];
@@ -116,10 +135,11 @@ public class ArchCareerCommand implements CommandExecutor, TabCompleter {
                     file.createNewFile();
                 }
                 YamlUtil.dump(map, new FileWriter(file));
-                MessageUtil.sendMessage(sender, "&a职业创建成功");
+                MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("careerCreateSuccessfully"));
             } catch (IOException e) {
                 e.printStackTrace();
-                MessageUtil.sendMessage(sender, "&4&l职业创建失败，请手动在数据目录中创建配置文件");
+                MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("careerCreateSuccessfully"));
+                MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("careerCreateError"));
                 return true;
             }
         } else if (args[0].equalsIgnoreCase("remove")) {
@@ -134,19 +154,28 @@ public class ArchCareerCommand implements CommandExecutor, TabCompleter {
                     careerConfigFile.delete();
                 }
             }
-            MessageUtil.sendMessage(sender, "&a&l职业删除成功");
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("careerRemoveSuccessfully"));
         } else if (args[0].equalsIgnoreCase("clear")) {
             // 清空
             if (args.length != 2) {
-                MessageUtil.sendMessage(sender, "&4&l出于安全考虑，请重新键入 &e&l/archcareer clear confirm &4&l指令继续下一步");
+                MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("careerClearConfirm"));
                 return true;
+            }
+            if (args[1].equals("confirm")) {
+                List<Career> careers = ArchCareer.getInstance().getCareerManager().getCareers();
+                for (Career career : careers) {
+                    File file = new File(new File(ArchCareer.getInstance().getDataFolder(), "careers"), career.getName() + ".yml");
+                    if (!file.exists()) {
+                        file.delete();
+                    }
+                }
             }
         } else if (args[0].equalsIgnoreCase("reload")) {
             // 重载
             ArchCareer.getInstance().getConfigManager().reload();
             ArchCareer.getInstance().getCareerManager().clear();
             ArchCareer.getInstance().initCareers();
-            MessageUtil.sendMessage(sender, "&e&l插件重载完毕");
+            MessageUtil.sendMessage(sender, ArchCareerLangApi.translate("careerReload"));
         }
         return true;
     }

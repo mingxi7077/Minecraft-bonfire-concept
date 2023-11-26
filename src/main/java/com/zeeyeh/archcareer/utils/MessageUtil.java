@@ -14,7 +14,7 @@ public class MessageUtil {
     }
 
     public static void sendMessage(CommandSender sender, String message, char colorChar, boolean showHeader) {
-        if (showHeader) message = "&b[&6ArchCareer&b] &r" + message;
+        if (showHeader) message = message;
         message = ChatColor.translateAlternateColorCodes(
                 colorChar,
                 message

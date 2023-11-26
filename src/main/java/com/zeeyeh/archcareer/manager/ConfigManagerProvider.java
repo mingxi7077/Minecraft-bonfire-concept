@@ -1,6 +1,7 @@
 package com.zeeyeh.archcareer.manager;
 
 import com.zeeyeh.archcareer.ArchCareer;
+import com.zeeyeh.archcareer.api.ArchCareerLangApi;
 import com.zeeyeh.archcareer.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
@@ -26,7 +27,7 @@ public class ConfigManagerProvider {
         for (File file : files) {
             YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
             configurationMap.put(file.getName().substring(0, file.getName().indexOf(".")), configuration);
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), "&a&l成功读取配置: " + file.getName());
+            MessageUtil.sendMessage(Bukkit.getConsoleSender(), ArchCareerLangApi.translate("loadedConfig").replace("{0}", file.getName()));
         }
     }
 

@@ -1,0 +1,7 @@
+{
+  "prefix": "&b[&6ArchCareerArea&b]&r ",
+  "notFindResidence": "%prefix%&4未找到名为: Residence的插件，本插件将无法成功运行，请先检查是否安装该插件",
+  "notEnableResidence": "%prefix%&4名为: Residence的插件已被禁用，本插件将无法成功运行，请先检查是否安装该插件",
+  "noPermission": "&4你没有权限这么做",
+  "reloadSuccessfully": "&a插件重载成功"
+}

@@ -1,0 +1,23 @@
+name: ArchCareerArea
+version: '${project.version}'
+main: com.zeeyeh.archcareerarea.ArchCareerArea
+api-version: '1.18'
+authors: [LingQi]
+description: 一个职业分配工作领地插件
+website: http://www.zeeyeh.com
+depend:
+  - Residence
+  - ArchCareer
+commands:
+  archcareerarea:
+    description: ArchCareerArea command
+    usage: /<command>
+    aliases:
+      - acareerarea
+      - acarea
+      - area
+permissions:
+  ArchCareerArea.basic:
+    default: true
+  ArchCareerArea.admin:
+    default: op

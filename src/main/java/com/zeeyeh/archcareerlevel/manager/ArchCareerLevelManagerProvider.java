@@ -23,6 +23,7 @@ public class ArchCareerLevelManagerProvider {
     private final List<CareerLevel> levels = new ArrayList<>();
 
     public ArchCareerLevelManagerProvider() {
+        initLevels();
     }
 
     private void initLevels() {

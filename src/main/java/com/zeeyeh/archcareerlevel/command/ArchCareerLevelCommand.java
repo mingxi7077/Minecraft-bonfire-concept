@@ -14,9 +14,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Tag;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -110,7 +114,8 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
             MessageUtil.sendMessage(sender, "");
             MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("oneHelpHeadFoot")
                     .replace("{0}", String.valueOf(pages)));
-        } else if (args[0].equalsIgnoreCase("create"))
+        }
+        else if (args[0].equalsIgnoreCase("create"))
         {
             Map<String, Object> map = new HashMap<>();
             long id = IdUtil.getSnowflakeNextId();
@@ -136,16 +141,17 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
                     //noinspection ResultOfMethodCallIgnored
                     file.createNewFile();
                 }
-                YamlUtil.dump(map, new FileWriter(file));
+                Yaml yaml = new Yaml();
+                yaml.dump(map, new BufferedWriter(new FileWriter(file)));
                 MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("careerCreatedSuccessfully"));
             } catch (IOException e) {
                 e.printStackTrace();
                 MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("careerCreatedError"));
                 return true;
             }
-        } else if (args[0].equalsIgnoreCase("remove"))
+        }
+        else if (args[0].equalsIgnoreCase("remove"))
         {
-
             String name = args[1];
             ArchCareerLevel.getInstance().getCareerLevelManager().unregisterLevel(name);
             String careerLevelFolder = ArchCareerLevel.getInstance().getConfigManager().getConfig("config").getString("path");
@@ -168,10 +174,29 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
             String playerName = args[1];
             String levelName = args[2];
             ArchCareerLevel.getInstance().getCareerLevelManager().addPlayer(playerName, levelName, sender);
+            String levelFolder = ArchCareerLevel.getInstance().getConfigManager().getConfig("config").getString("path");
+            File levelFile = new File(new File(ArchCareerLevel.getInstance().getDataFolder(), levelFolder), levelName + ".yml");
+            YamlConfiguration configuration = YamlConfiguration.loadConfiguration(levelFile);
+            List<String> players = configuration.getConfigurationSection("level").getStringList("players");
+            if (players.contains(playerName)) {
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("levelUppingError"));
+                return true;
+            }
+            players.add(playerName);
+            configuration.set("level.players", players);
+            try {
+                configuration.save(levelFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("levelUppingFailed"));
+                return true;
+            }
+            ArchCareerLevel.getInstance().getCareerLevelManager().addPlayer(playerName, levelName, sender);
             MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("levelUpping")
                     .replace("{0}", playerName)
                     .replace("{1}", levelName));
-        }else if (args[0].equalsIgnoreCase("delete"))
+        }
+        else if (args[0].equalsIgnoreCase("delete"))
         {
             if (args.length != 3) {
                 MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("formatError")
@@ -181,10 +206,28 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
             String playerName = args[1];
             String levelName = args[2];
             ArchCareerLevel.getInstance().getCareerLevelManager().removePlayer(playerName, levelName, sender);
+            String levelFolder = ArchCareerLevel.getInstance().getConfigManager().getConfig("config").getString("path");
+            File levelFile = new File(new File(ArchCareerLevel.getInstance().getDataFolder(), levelFolder), levelName + ".yml");
+            YamlConfiguration configuration = YamlConfiguration.loadConfiguration(levelFile);
+            List<String> players = configuration.getConfigurationSection("level").getStringList("players");
+            if (!players.contains(playerName)) {
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("levelDowningError"));
+                return true;
+            }
+            players.remove(playerName);
+            configuration.set("level.players", players);
+            try {
+                configuration.save(levelFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+                MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("levelDowningFailed"));
+                return true;
+            }
             MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("levelDowning")
                     .replace("{0}", playerName)
                     .replace("{1}", levelName));
-        } else if (args[0].equalsIgnoreCase("clear"))
+        }
+        else if (args[0].equalsIgnoreCase("clear"))
         {
             if (args.length != 2) {
                 MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("commandConfirm"));
@@ -201,12 +244,36 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
                 }
             }
             MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("careerClearSuccessfully"));
-        } else if (args[0].equalsIgnoreCase("reload"))
+        }
+        else if (args[0].equalsIgnoreCase("reload"))
         {
             ArchCareerLevel.getInstance().getConfigManager().reload();
             ArchCareerLevel.getInstance().getCareerLevelManager().reload();
             ArchCareerLevel.getInstance().reloadConfig();
             MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("careerReloadSuccessfully"));
+        }
+        else if (args[0].equalsIgnoreCase("info"))
+        {
+            String playerName = args[1];
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpHeadFoot")
+                    .replace("{0}", String.valueOf(1))
+                    .replace("{1}", String.valueOf(1)));
+            List<CareerLevel> levels = ArchCareerLevel.getInstance().getCareerLevelManager().getLevels();
+            for (CareerLevel level : levels) {
+                for (String player : level.getPlayers()) {
+                    if (playerName.equals(player)) {
+                        MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpLine")
+                                .replace("{0}", level.getLevelName())
+                                .replace("{1}", level.getLevelTitle())
+                                .replace("{2}", String.valueOf(level.getPlayers().size()))
+                        );
+                        break;
+                    }
+                }
+            }
+            MessageUtil.sendMessage(sender, ArchCareerLevelLangApi.translate("helpHeadFoot")
+                    .replace("{0}", String.valueOf(1))
+                    .replace("{1}", String.valueOf(1)));
         }
         return true;
     }
@@ -214,7 +281,14 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
-            return Arrays.asList("list", "create", "remove", "join", "delete", "clear", "reload");
+            return Arrays.asList("list", "info", "create", "remove", "join", "delete", "clear", "reload");
+        }
+        if (args.length == 2 && args[0].equalsIgnoreCase("info")) {
+            List<String> players = new ArrayList<>();
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                players.add(onlinePlayer.getName());
+            }
+            return players;
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("remove")) {
             List<CareerLevel> levels = ArchCareerLevel.getInstance().getCareerLevelManager().getLevels();
@@ -224,14 +298,29 @@ public class ArchCareerLevelCommand implements CommandExecutor, TabCompleter {
             }
             return careerLevelNames;
         }
-        if (args.length == 2 && args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("delete")) {
+        if (args.length == 2 && args[0].equalsIgnoreCase("join")) {
             List<String> players = new ArrayList<>();
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
                 players.add(onlinePlayer.getName());
             }
             return players;
         }
-        if (args.length == 3 && args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("delete")) {
+        if (args.length == 2 && args[0].equalsIgnoreCase("delete")) {
+            List<String> players = new ArrayList<>();
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                players.add(onlinePlayer.getName());
+            }
+            return players;
+        }
+        if (args.length == 3 && args[0].equalsIgnoreCase("join")) {
+            List<String> levels = new ArrayList<>();
+            List<CareerLevel> hasLevels = ArchCareerLevel.getInstance().getCareerLevelManager().getLevels();
+            for (CareerLevel level : hasLevels) {
+                levels.add(level.getLevelName());
+            }
+            return levels;
+        }
+        if (args.length == 3 &&args[0].equalsIgnoreCase("delete")) {
             List<String> levels = new ArrayList<>();
             List<CareerLevel> hasLevels = ArchCareerLevel.getInstance().getCareerLevelManager().getLevels();
             for (CareerLevel level : hasLevels) {

@@ -1,5 +1,5 @@
 {
-  "prefix": "&b[&6ArchCareerArea&b]&r ",
+  "prefix": "&b[&6ArchCareerLevel&b] &r",
   "loadedPlugin": "%prefix%&a插件加载成功",
   "loadConfig": "%prefix%&a&l成功读取配置: {0}",
   "noPermission": "&4&l你没有权限这么做",
@@ -28,8 +28,12 @@
   "careerCreatedSuccessfully": "&a职业等级创建成功",
   "careerCreatedError": "&4&l职业等级创建失败，请手动在数据目录中创建配置文件",
   "careerDeleteSuccessfully": "&a&l职业等级删除成功",
-  "levelUpping": "&a&l玩家&e&l{0}&a&l职业等级成功提示至&e&l{1}",
-  "levelDowning": "&a&l玩家&e&l{0}&a&l职业等级成功提示至&e&l{1}",
+  "levelUpping": "&a&l玩家&e&l{0}&a&l职业等级成功提升至&e&l{1}",
+  "levelDowning": "&a&l玩家&e&l{0}&a&l职业等级成功下降至&e&l{1}",
+  "levelUppingError": "&4&l玩家&e&l{0}&4&l已在职业等级&e&l{1}中",
+  "levelDowningError": "&a&l玩家&e&l{0}&a&l不在职业等级&e&l{1}中",
+  "levelUppingFailed": "&4&l提升玩家&e&l{0}&4&l的职业等级&e&l{1}发生了错误",
+  "levelDowningFailed": "&4&l下降玩家&e&l{0}&4&l的职业等级&e&l{1}发生了错误",
   "commandConfirm": "&4&l出于安全考虑，请重新键入 &e&l/archcareerlevel clear confirm &4&l指令继续下一步",
   "careerClearSuccessfully": "&a&l职业等级清空完成",
   "careerReloadSuccessfully": "&a&l插件重载完毕"

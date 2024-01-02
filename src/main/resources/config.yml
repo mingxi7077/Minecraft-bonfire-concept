@@ -2,3 +2,5 @@
 enabled: true
 # 等级保存目录路径
 path: levels
+# 插件语言
+locale: zh_cn

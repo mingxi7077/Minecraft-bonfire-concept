@@ -8,6 +8,7 @@ import com.zeeyeh.archcareerlevel.command.ArchCareerLevelCommand;
 import com.zeeyeh.archcareerlevel.entity.CareerLevel;
 import com.zeeyeh.archcareerlevel.manager.ArchCareerLevelManagerProvider;
 import com.zeeyeh.archcareerlevel.manager.ConfigManagerProvider;
+import com.zeeyeh.archcareerlevel.manager.LanguageManager;
 import com.zeeyeh.archcareerlevel.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,12 +26,15 @@ public final class ArchCareerLevel extends JavaPlugin implements PluginMessageLi
     private static ArchCareerLevel instance;
     private ConfigManagerProvider configManager;
     private ArchCareerLevelManagerProvider careerLevelManager;
+    private LanguageManager languageManager;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        instance = this;
         if (getConfig().getBoolean("enabled")) {
+            instance = this;
+            languageManager = new LanguageManager();
+            ArchCareerLevelLangApi.initLang(languageManager);
             configManager = new ConfigManagerProvider();
             careerLevelManager = new ArchCareerLevelManagerProvider();
             String path = getConfigManager().getConfig("config").getString("path");
@@ -51,6 +55,10 @@ public final class ArchCareerLevel extends JavaPlugin implements PluginMessageLi
 
     public ConfigManagerProvider getConfigManager() {
         return configManager;
+    }
+
+    public LanguageManager getLanguageManager() {
+        return languageManager;
     }
 
     public ArchCareerLevelManagerProvider getCareerLevelManager() {

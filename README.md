@@ -1,3 +1,93 @@
+# Bonfire - An Open World Social Project in Minecraft
+
+> Experience the warmth of real human connection in a world of pixels.  
+> A Minecraft survival project centered around social interaction, narrative, and immersion.
+
+## Project Overview
+
+**Bonfire** is an open-world Minecraft server project combining role-playing, NPC interaction, and player-driven communities. You play as a "traveler from afar" settling into a vibrant world, building relationships with both NPCs and fellow players in a place that blurs the line between reality and fantasy.
+
+## Key Features
+
+- 🧍‍♀️ **Living NPCs**: Every NPC has personality, memory, and emotional reactions. Long-term social interaction supported.
+- 📖 **Branching Storylines**: A non-linear world where player choices affect the story and relationships.
+- 🏠 **Player Spaces**: Personalized homes and public message boards enhance immersion and expression.
+- 🧭 **Social Simulation**: Gameplay reflects real-life pressures like livelihood, work, and personal freedom.
+
+## Current Version
+
+**v2.0.5.1**  
+- Initial NPC dialogue and basic task system implemented  
+- Player spaces and message wall system under testing  
+- Voice system and backend admin panel in integration
+
+## Tech Stack
+
+- Server: PaperMC + Custom Mixin plugins  
+- Data: JSON persistence, planned database integration  
+- Core Systems: Story engine, dialogue handler, memory system, task dispatcher  
+- Visual Style: Pixel-art, Japanese-inspired, minimal UI with cool color tones
+
+## Contributing
+
+Writers, artists, developers, and community moderators are welcome to join!
+
+- Fork the project and work off `dev/feature-*` branches  
+- Test locally before submitting Pull Requests  
+- Submit world/story suggestions via Issues or our discussion group
+
+## Contact Us
+
+- Official Wiki: https://flowus.cn/campfire/share/c48b43f9-517c-403d-90a9-40fab8f6d9d5  
+- Community Group: QQ 946970466  
+- Public test server: Coming soon!
+
+---
+
+## Bonfire Development History · The “Origin Realm” Phase (2024–2025)
+
+### Early Phase (Sep 2024)
+- Initial setup: UI menu, mount skins, anti-cheat, and voice system
+- Development begins on postal delivery and profession prototypes (e.g. miner, carpenter)
+
+### System Formation (Oct–Nov 2024)
+- NPC voice and animation introduced, adventurer guild and railway systems built
+- Player titles, guilds, social posting, and real-life simulation features added
+- First burnout confession: “I'd rather go sell my ass than finish this update.”
+
+### Expansion Era (Dec 2024 – Jan 2025)
+- Maps released: Iwal, Lake Mu, Zhongnong, and Kelgairang Island
+- Job switching, cooking, furniture, mounts, and pet systems go live
+- Entertainment server, VR compatibility, and launcher UI upgrades begin
+- Dev fatigue hits again. Public notice issued: project entering semi-hibernation
+
+### Climax & Stasis (Feb–May 2025)
+- Professions completed, cooking/blacksmithing/livestock systems developed
+- Cosmetic wardrobe, sticker emotes, pet logic stabilized
+- Shift toward Kelgairang island as main map; system pruning begins
+- Three-month hiatus declared for health and mental recovery
+
+---
+
+## Full Feature Summary
+
+- 🌍 **Maps & Cities**: Iwal continent, Kelgairang island, 30+ distinct zones  
+- 🎭 **Professions**: 20+ careers, job switching, skill points, and respecs  
+- 💬 **NPC System**: Fully interactive NPCs with voices, tasks, and emotion  
+- 🛠 **Life Simulation**: Furniture, food crafting, delivery, and mining logistics  
+- 🚂 **Transportation**: Trains, carts, ports, and courier interactions  
+- 🧑‍🤝‍🧑 **Social Design**: Message boards, events, player shows, faction titles  
+- 📦 **Platform Integration**: VR support, custom launcher, app + web sync  
+- 🛏 **Burnout Logs**: Four months of crunch, dev declares “Bonfire is my prison,” enters rest cycle
+
+
+
+
+
+
+
+
+
 # 篝火 Bonfire - Minecraft 社交开放世界项目
 
 > 在像素的世界里，体验人与人之间真正的温度。  

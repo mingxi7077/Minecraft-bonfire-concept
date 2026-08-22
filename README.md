@@ -65,3 +65,10 @@ Minecraft-bonfire-concept 是 Bonfire 的总概念仓库，用来承载这个长
 ### 当前状态
 
 这个仓库目前主要作为 Bonfire 更大项目体系下的概念中枢与长期方向说明入口。
+
+---
+
+## 联系方式 / Contact
+
+项目问题或合作沟通，请发送邮件至 [mingxi7707@qq.com](mailto:mingxi7707@qq.com)。
+For project questions or collaboration, email [mingxi7707@qq.com](mailto:mingxi7707@qq.com).
